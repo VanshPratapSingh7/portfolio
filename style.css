@@ -378,41 +378,64 @@ section {
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
-/* Skills Section */
-.skills-grid {
+/* Categories grid for compact skills (Option B) */
+.categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
 }
 
-.skill-item {
+.skill-category {
     background: var(--bg-card);
     border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 35px 25px;
-    text-align: center;
-    transition: all 0.3s;
-    cursor: pointer;
-    box-shadow: 0 4px 15px var(--shadow);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 6px 20px var(--shadow);
+    transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
-.skill-item:hover {
+.skill-category:hover {
+    transform: translateY(-8px);
     border-color: var(--accent);
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 15px 40px var(--shadow);
+    box-shadow: 0 18px 45px var(--shadow);
 }
 
-.skill-icon {
-    font-size: 3em;
-    margin-bottom: 15px;
-    filter: grayscale(0);
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
 }
 
-.skill-name {
-    font-weight: 600;
+.skill-category .skill-icon {
+    font-size: 2.4em;
+    margin: 0;
+}
+
+.skill-category h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--text-primary);
-    font-size: 1.1em;
 }
+
+.category-list {
+    list-style: none;
+    margin: 8px 0 0 0;
+    padding: 0;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+.category-list li::before {
+    content: "•";
+    margin-right: 8px;
+    color: var(--accent);
+    font-weight: 700;
+}
+
 
 /* Projects Section */
 .projects-grid {
@@ -586,55 +609,159 @@ section {
     font-size: 1em;
 }
 
-/* Education Section */
-.education-timeline {
-    max-width: 900px;
-    margin: 0 auto;
+/* ===== Centered alternating education timeline ===== */
+.center-timeline {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.edu-item {
-    background: var(--bg-card);
-    border: 2px solid var(--border);
-    border-radius: 25px;
-    padding: 40px;
-    margin-bottom: 30px;
-    position: relative;
-    transition: all 0.3s;
-    box-shadow: 0 8px 30px var(--shadow);
+.middle-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  border-radius: 4px;
+  z-index: 1;
 }
 
-.edu-item:hover {
-    border-color: var(--accent);
-    transform: translateX(15px);
-    box-shadow: 0 15px 50px var(--shadow);
+/* wrapper row keeps items stacked vertically but visually split left/right */
+.timeline-row {
+  position: relative;
+  z-index: 2;
 }
 
-.edu-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 6px;
+/* each item takes half the width and alternates left/right */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 25px 20px;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* LEFT items: aligned to left column, content appears on left of center line */
+.timeline-item.left {
+  margin-left: 0;
+  text-align: right;
+  float: left;
+  clear: both;
+}
+
+/* RIGHT items: aligned to right column, content appears on right of center line */
+.timeline-item.right {
+  margin-left: 50%;
+  text-align: left;
+  float: left;
+  clear: both;
+}
+
+/* dot that sits on the central line for each item */
+.timeline-dot {
+  position: absolute;
+  top: 38px; /* vertical alignment of dot relative to card */
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--shadow);
+  z-index: 3;
+}
+
+/* position dot at the edge of the content so it visually connects to the line */
+.timeline-item.left .timeline-dot {
+  right: -10px; /* sits just over the center line from the left side */
+}
+
+.timeline-item.right .timeline-dot {
+  left: -10px;  /* sits just over the center line from the right side */
+}
+
+/* card that contains the education details */
+.timeline-content {
+  display: inline-block;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  padding: 18px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px var(--shadow);
+  max-width: 85%;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.timeline-item.left .timeline-content {
+  margin-right: 40px; /* space between content and center line */
+}
+
+.timeline-item.right .timeline-content {
+  margin-left: 40px;
+}
+
+.timeline-content:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 18px 45px var(--shadow);
+}
+
+.timeline-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.timeline-content .edu-degree {
+  font-size: 1.03rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.timeline-content .edu-date {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Clearfix so parent contains floated items */
+.center-timeline::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Mobile: stack items vertically, put the line to the left */
+@media (max-width: 768px) {
+  .middle-line {
+    left: 20px;
+    transform: none;
     height: 100%;
-    background: linear-gradient(180deg, var(--accent), var(--accent-2));
-    border-radius: 25px 0 0 25px;
-}
+  }
 
-.edu-item h3 {
-    font-size: 1.7em;
-    margin-bottom: 12px;
-    color: var(--accent);
-}
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+    float: none;
+    clear: both;
+    padding: 18px 10px 30px 50px;
+  }
 
-.edu-degree {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    color: var(--text-primary);
-}
+  .timeline-item .timeline-dot {
+    left: 12px;
+    right: auto;
+    top: 30px;
+  }
 
-.edu-date {
-    color: var(--text-secondary);
-    font-size: 1em;
+  .timeline-content {
+    display: block;
+    margin: 0 0 0 30px;
+    max-width: calc(100% - 60px);
+  }
 }
 
 /* Contact Section */
@@ -889,3 +1016,4 @@ footer {
 .social-btn.github:hover {
   background: #000;
 }
+
